@@ -11,7 +11,9 @@ class _CalculatorState extends State<Calculator> {
   Widget calcButton(String txt, Color btnColor, Color txtColor) {
     return Container(
         child: ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        addToScreen(txt);
+      },
       style: ElevatedButton.styleFrom(
           shape: CircleBorder(),
           backgroundColor: btnColor,
@@ -30,19 +32,20 @@ class _CalculatorState extends State<Calculator> {
           backgroundColor: Colors.black,
         ),
         body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 5),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: Text(
-                      "0",
+                      '$numOne$opr$numTwo',
                       textAlign: TextAlign.left,
-                      style: TextStyle(color: Colors.white, fontSize: 100),
+                      style:
+                          const TextStyle(color: Colors.white, fontSize: 100),
                     ),
                   ),
                 ],
@@ -50,8 +53,8 @@ class _CalculatorState extends State<Calculator> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  calcButton('ac', Colors.grey, Colors.black),
-                  calcButton('+/-', Colors.grey, Colors.black),
+                  calcButton('c', Colors.grey, Colors.black),
+                  calcButton('d', Colors.grey, Colors.black),
                   calcButton('%', Colors.grey, Colors.black),
                   calcButton('/', Colors.amber, Colors.black),
                 ],
@@ -90,16 +93,7 @@ class _CalculatorState extends State<Calculator> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                        shape: StadiumBorder(),
-                        padding: EdgeInsets.fromLTRB(34, 10, 128, 10)),
-                    child: Text(
-                      '0',
-                      style: TextStyle(fontSize: 35, color: Colors.black),
-                    ),
-                  ),
+                  calcButton('0', Colors.grey, Colors.black),
                   calcButton('.', Colors.grey, Colors.black),
                   calcButton('=', Colors.amber, Colors.black),
                 ],
@@ -107,7 +101,89 @@ class _CalculatorState extends State<Calculator> {
             ],
           ),
         ));
+  }
 
-        
+  dynamic numOne = '0';
+  dynamic numTwo = '';
+
+  dynamic opr = '';
+  dynamic preOpr = '';
+
+  void addToScreen(String txt) {
+    if (txt == 'c') {
+      numOne = '0';
+      numTwo = '';
+      opr = '';
+      preOpr = '';
+    } else if (txt == 'd') {
+      if (numOne.length == 1) {
+        numOne = '0';
+      } else if (opr == "") {
+        numOne = numOne.substring(0, numOne.length - 1);
+      } else if (numTwo == '') {
+        opr = '';
+      } else {
+        numTwo = numTwo.substring(0, numTwo.length - 1);
+      }
+    } else if (txt == '+' || txt == '-' || txt == 'x' || txt == '/') {
+      if (opr == '') {
+        opr = txt;
+      } else if (numTwo != '' && numOne != '') {
+        cal();
+        opr = txt;
+        numTwo = '';
+      }
+    } else if (txt == "=") {
+      if (opr != "" && numTwo != "") {
+        cal();
+        opr = "";
+        numTwo = "";
+      }
+    }else if(txt=="%"){
+      if (opr != "" && numTwo != "") {
+        cal();
+        opr = "";
+        numTwo = "";
+      }
+      numOne=formatNum(double.parse(numOne)/100);
+    } else {
+      if (opr == "") {
+        if (numOne == "0") {
+          numOne = txt;
+        } else {
+          numOne = numOne + txt;
+        }
+      } else {
+        numTwo = numTwo + txt;
+      }
+    }
+    setState(() {});
+  }
+
+  void cal() {
+    if (opr == '+') {
+      numOne = formatNum((double.parse(numOne) + double.parse(numTwo)));
+    } else if (opr == '-') {
+      numOne = formatNum((double.parse(numOne) - double.parse(numTwo)));
+    } else if (opr == 'x') {
+      numOne = formatNum((double.parse(numOne) * double.parse(numTwo)));
+    } else if (opr == '/') {
+      numOne = formatNum((double.parse(numOne) / double.parse(numTwo)));
+    }
+  }
+
+  dynamic formatNum(double a) {
+    var temp = a.toStringAsFixed(2);
+    if (temp.contains('.')) {
+      var len = temp.length;
+      while (temp[len - 1] == '0') {
+        len--;
+      }
+      if (temp[len - 1] == '.') {
+        len--;
+      }
+      temp = temp.substring(0, len);
+    }
+    return temp;
   }
 }
