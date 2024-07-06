@@ -1,3 +1,5 @@
+import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
+
 import 'package:flutter/material.dart';
 
 class Calculator extends StatefulWidget {
@@ -8,13 +10,25 @@ class Calculator extends StatefulWidget {
 }
 
 class _CalculatorState extends State<Calculator> {
+  Widget calcButton(String txt, Color btnColor, Color txtColor) {
+    return Container(
+        child: ElevatedButton(
+      onPressed: () {},
+      style: ElevatedButton.styleFrom(
+          shape: CircleBorder(),
+          backgroundColor: btnColor,
+          padding: EdgeInsets.all(20)),
+      child: Text(txt, style: TextStyle(fontSize: 35, color: txtColor)),
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
           title: const Text('Calculator'),
-          titleTextStyle: TextStyle(color: Colors.white),
+          titleTextStyle: const TextStyle(color: Colors.white),
           backgroundColor: Colors.black,
         ),
         body: Padding(
@@ -22,7 +36,7 @@ class _CalculatorState extends State<Calculator> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Padding(
@@ -37,7 +51,7 @@ class _CalculatorState extends State<Calculator> {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [],
+                children: [calcButton('ac', Colors.black, Colors.black)],
               )
             ],
           ),
