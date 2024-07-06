@@ -1,5 +1,3 @@
-import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
-
 import 'package:flutter/material.dart';
 
 class Calculator extends StatefulWidget {
@@ -51,10 +49,65 @@ class _CalculatorState extends State<Calculator> {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [calcButton('ac', Colors.black, Colors.black)],
+                children: [
+                  calcButton('ac', Colors.grey, Colors.black),
+                  calcButton('+/-', Colors.grey, Colors.black),
+                  calcButton('%', Colors.grey, Colors.black),
+                  calcButton('/', Colors.amber, Colors.black),
+                ],
+              ),
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  calcButton('7', Colors.grey, Colors.black),
+                  calcButton('8', Colors.grey, Colors.black),
+                  calcButton('9', Colors.grey, Colors.black),
+                  calcButton('x', Colors.amber, Colors.black),
+                ],
+              ),
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  calcButton('4', Colors.grey, Colors.black),
+                  calcButton('5', Colors.grey, Colors.black),
+                  calcButton('6', Colors.grey, Colors.black),
+                  calcButton('-', Colors.amber, Colors.black),
+                ],
+              ),
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  calcButton('1', Colors.grey, Colors.black),
+                  calcButton('2', Colors.grey, Colors.black),
+                  calcButton('3', Colors.grey, Colors.black),
+                  calcButton('+', Colors.amber, Colors.black),
+                ],
+              ),
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                        shape: StadiumBorder(),
+                        padding: EdgeInsets.fromLTRB(34, 10, 128, 10)),
+                    child: Text(
+                      '0',
+                      style: TextStyle(fontSize: 35, color: Colors.black),
+                    ),
+                  ),
+                  calcButton('.', Colors.grey, Colors.black),
+                  calcButton('=', Colors.amber, Colors.black),
+                ],
               )
             ],
           ),
         ));
+
+        
   }
 }
